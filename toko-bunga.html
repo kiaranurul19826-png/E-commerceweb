@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 TheFlowerCollective.com - Toko Bunga Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d63384;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .products {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(255,107,107,0.2);
+        }
+
+        .cart {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(255,107,107,0.2);
+            height: fit-content;
+        }
+
+        .products h2, .cart h2 {
+            color: #d63384;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            border: 3px solid #ffe4e1;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            background: linear-gradient(145deg, #fff, #fdf2f8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(214,51,132,0.3);
+            border-color: #d63384;
+        }
+
+        .product-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 1.6em;
+            color: #d63384;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .add-btn {
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 25px rgba(214,51,132,0.4);
+        }
+
+        .cart-items {
+            max-height: 450px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #ffe4e1;
+            background: linear-gradient(145deg, #fdf2f8, #fff);
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .item-info h4 {
+            color: #8b4513;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .item-price {
+            color: #d63384;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(214,51,132,0.4);
+        }
+
+        .remove-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+
+        .cart-total {
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(214,51,132,0.3);
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 25px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(40,167,69,0.4);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #ff69b4;
+            font-style: italic;
+            padding: 50px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 TheFlowerCollective.com</h1>
+        <p style="text-align: center; color: #d63384; font-size: 1.2em; margin-bottom: 30px;">
+            Toko Bunga Online - Segar Setiap Hari 💐✨
+        </p>
+        
+        <div class="main-grid">
+            <div class="products">
+                <h2>🌺 Koleksi Bunga Terpopuler</h2>
+                <div class="product-grid" id="productGrid">
+                    <!-- Produk akan dimuat oleh JavaScript -->
+                </div>
+            </div>
+            
+            <div class="cart">
+                <h2>Keranjang Bunga (<span id="cartCount">0</span>)</h2>
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart">
+                        Keranjang kosong. Pilih buket bunga favoritmu! 💝
+                    </div>
+                </div>
+                <div class="cart-total">
+                    Total: Rp <span id="totalPrice">0</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" onclick="checkout()" disabled>
+                    🛒 Lihat Ringkasan Pesanan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data BUNGA dengan foto 💐
+        const products = [
+            { id: 1, name: 'Buket Mawar Merah', price: 35000, image: 'mawarmerah.jpg' },
+            { id: 2, name: 'Buket Tulip Pink', price: 40000, image: 'tulippink.jpg' },
+            { id: 3, name: 'Buket Lily Putih', price: 35000, image: 'lilyputih.jpg' },
+            { id: 4, name: 'Buket Baby Breath', price: 45000, image: 'babybreath.jpg' },
+            { id: 5, name: 'Buket Anggrek', price: 40000, image: 'anggrek.jpg' },
+            { id: 6, name: 'Buket Mix Premium', price: 50000, image: 'mix.jpg' },
+            { id: 7, name: 'Buket Mawar Putih', price: 35000, image: 'mawarputih.jpg' },
+            { id: 8, name: 'Buket Sunflower', price: 40000, image: 'sunflower.jpg' }
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = products.map(product => `
+                <div class="product-card" data-id="${product.id}">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/120x120/ffe4e1/ff69b4?text=Bunga'">
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-price">Rp ${formatRupiah(product.price)}</div>
+                    <button class="add-btn" onclick="addToCart(${product.id})">
+                        💝 Tambah ke Keranjang
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function formatRupiah(angka) {
+            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            renderCart();
+            updateCartCount();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            renderCart();
+            updateCartCount();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    renderCart();
+                    updateCartCount();
+                }
+            }
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const totalPrice = document.getElementById('totalPrice');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        Keranjang kosong. Pilih buket bunga favoritmu! 💝
+                    </div>
+                `;
+                totalPrice.textContent = '0';
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="item-image" onerror="this.src='https://via.placeholder.com/60x60/ffe4e1/ff69b4?text=Bunga'">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <div class="item-price">Rp ${formatRupiah(item.price)}</div>
+                    </div>
+                    <div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                            <span style="font-weight: bold; min-width: 25px; text-align: center; font-size: 1.2em;">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <br>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})">🗑️ Hapus</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            totalPrice.textContent = formatRupiah(total);
+            checkoutBtn.disabled = false;
+        }
+
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            // Simpan cart ke localStorage
+            localStorage.setItem('flowerCart', JSON.stringify(cart));
+            
+            // Buka halaman checkout baru
+            window.open('checkout.html', '_blank');
+        }
+
+        // Load cart dari localStorage saat halaman dimuat
+        const savedCart = localStorage.getItem('flowerCart');
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+            renderCart();
+            updateCartCount();
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
